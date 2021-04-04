@@ -25,3 +25,7 @@ data:
   {{ tpl $config $ | indent 4 -}}
 {{- end -}}
 {{- end -}}
+
+# _meta:
+#   type: "config"
+#   config_version: 2
