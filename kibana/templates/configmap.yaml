@@ -11,21 +11,3 @@ data:
 {{ tpl $config $ | indent 4 -}}
 {{- end -}}
 {{- end -}}
-
-{{- if .Values.kibanaSecurityConfig }}
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ template "kibana.fullname" . }}-security-config
-  labels: {{ include "kibana.labels" . | nindent 4 }}
-data:
-{{- range $path, $config := .Values.kibanaSecurityConfig }}
-  {{ $path }}: |
-  {{ tpl $config $ | indent 4 -}}
-{{- end -}}
-{{- end -}}
-
-# _meta:
-#   type: "config"
-#   config_version: 2
