@@ -145,7 +145,7 @@ spec:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
           - name: kibanasecurityconfig
-            mountPath: /usr/share/kibana/plugins/opendistroSecurityKibana/securityconfig/config.yml
+            mountPath: /usr/share/kibana/plugins/opendistro_security/securityconfig/config.yml
             subPath: config.yml
           {{- range .Values.secretMounts }}
           - name: {{ .name }}
