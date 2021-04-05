@@ -26,7 +26,7 @@ data:
                 skip_users: {{ .Values.openidAuth.skip_users }}
             authentication_backend:
               type: noop
-          {{- end -}}
+          {{- end }}
 
           basic_internal_auth_domain:
             description: "Authenticate via HTTP Basic against internal users database"
