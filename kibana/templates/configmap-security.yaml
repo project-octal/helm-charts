@@ -16,7 +16,7 @@ data:
           openid_auth_domain:
             http_enabled: {{ .Values.openidAuth.http_enabled | default true }}
             transport_enabled: {{ .Values.openidAuth.transport_enabled | default true }}
-            order: {{ .Values.openidAuth.order | default 0 }}
+            order: 4 #{{ .Values.openidAuth.order | default 0 }}
             http_authenticator:
               type: openid
               challenge: {{ .Values.openidAuth.challenge | default false }}
@@ -32,7 +32,7 @@ data:
             description: "Authenticate via HTTP Basic against internal users database"
             http_enabled: true
             transport_enabled: true
-            order: 4
+            order: 0
             http_authenticator:
               type: basic
               challenge: true
