@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "kibana.fullname" . }}-security-config
+  labels: {{ include "kibana.labels" . | nindent 4 }}
+data:
+  config.yml: |
+    _meta:
+      type: "config"
+      config_version: 2
+
+    config:
+      authc:
+          {{- if .Values.openidAuth }}
+          openid_auth_domain:
+            http_enabled: {{ .Values.openidAuth.http_enabled | default true }}
+            transport_enabled: {{ .Values.openidAuth.transport_enabled | default true }}
+            order: {{ .Values.openidAuth.order | default 0 }}
+            http_authenticator:
+              type: openid
+              challenge: {{ .Values.openidAuth.challenge | default false }}
+              config:
+                subject_key: {{ .Values.openidAuth.subject_key | default "name" }}
+                openid_connect_url: {{ .Values.openidAuth.openid_connect_url }}
+                skip_users: {{ .Values.openidAuth.skip_users }}
+            authentication_backend:
+              type: noop
+          {{- end -}}
+          basic_internal_auth_domain:
+            description: "Authenticate via HTTP Basic against internal users database"
+            http_enabled: true
+            transport_enabled: true
+            order: 4
+            http_authenticator:
+              type: basic
+              challenge: true
+            authentication_backend:
+              type: intern

@@ -52,11 +52,9 @@ spec:
             name: {{ template "kibana.fullname" . }}-config
         {{- end }}
 
-        {{- if .Values.kibanaSecurityConfig }}
         - name: kibanasecurityconfig
           configMap:
             name: { { template "kibana.fullname" . } }-security-config
-        {{- end }}
 
     {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -162,11 +160,9 @@ spec:
             subPath: {{ $path }}
           {{- end -}}
 
-          {{- range $path, $config := .Values.kibanaSecurityConfig }}
           - name: kibanasecurityconfig
-            mountPath: /usr/share/kibana/plugins/opendistro_security/securityconfig/{{ $path }}
-            subPath: {{ $path }}
-          {{- end -}}
+            mountPath: /usr/share/kibana/plugins/opendistro_security/securityconfig/config.yml
+            subPath: config.yml
 
       {{- if .Values.extraContainers }}
       # Currently some extra blocks accept strings
