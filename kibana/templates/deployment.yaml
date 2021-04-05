@@ -45,7 +45,7 @@ spec:
           secret:
             secretName: {{ .secretName }}
         {{- end }}
-        -
+        
         {{- if .Values.kibanaConfig }}
         - name: kibanaconfig
           configMap:
