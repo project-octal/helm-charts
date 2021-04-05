@@ -20,7 +20,7 @@ data:
             http_authenticator:
               type: openid
               challenge: {{ .Values.openidAuth.challenge | default false }}
-               config:
+              config:
                 subject_key: {{ .Values.openidAuth.subject_key | default "name" }}
                 openid_connect_url: {{ .Values.openidAuth.openid_connect_url }}
                 skip_users: {{ .Values.openidAuth.skip_users }}
