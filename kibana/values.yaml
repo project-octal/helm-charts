@@ -65,12 +65,22 @@ kibanaConfig: {}
 #     key:
 #       nestedkey: value
 
-# Allows you to add any config files in /usr/share/kibana/plugins/opendistro_security/securityconfig
-# such as config.yml
-kibanaSecurityConfig: {}
-#   config.yml: |
-#     key:
-#       nestedkey: value
+openidAuth: {}
+#openidAuth: 
+#  http_enabled: true
+#  transport_enabled: true
+#  order: 0
+#  openidAuth: false
+#  subject_key: name
+#  openid_connect_url: ""
+#  skip_users:
+#  - kibanaro
+#  - kibanaserver
+#  - logstash
+#  - admin
+#  - filebeat_internal
+#  - kibanauser
+
 
 # If Pod Security Policy in use it may be required to specify security context as well as service account
 
