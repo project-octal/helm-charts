@@ -11,14 +11,7 @@ data:
       config_version: 2
 
     config:
-      dynamic:
-        kibana:
-          multitenancy_enabled: true
-          server_username: kibanaserver
-          index: '.kibana'
-        do_not_fail_on_forbidden: false
       authc:
-
         openid_auth_domain:
           http_enabled: {{ .Values.openidAuth.http_enabled | default true }}
           transport_enabled: {{ .Values.openidAuth.transport_enabled | default true }}
@@ -29,6 +22,7 @@ data:
             config:
               subject_key: {{ .Values.openidAuth.subject_key | default "name" }}
               openid_connect_url: {{ .Values.openidAuth.openid_connect_url }}
+              openid_connect_idp.enable_ssl: true
               skip_users:
               - kibanaro
               - kibanaserver
