@@ -24,7 +24,7 @@ spec:
     services:
     - kind: Service
       name: {{ $fullName }}
-      #namespace: code-server
+      namespace: code-server
       port: {{ $svcPort }}
       scheme: http
 
