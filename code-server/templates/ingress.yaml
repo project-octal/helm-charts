@@ -15,7 +15,6 @@ metadata:
 spec:
   entryPoints:
   - websecure
-  - web
   tls:
     secretName: {{ $fullName }}-traefik-tls
   routes:
@@ -25,6 +24,7 @@ spec:
     services:
     - kind: Service
       name: {{ $fullName }}
+      #namespace: code-server
       port: {{ $svcPort }}
       scheme: http
 
