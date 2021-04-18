@@ -1,12 +1,9 @@
+---
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "code-server.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
-{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
-apiVersion: networking.k8s.io/v1beta1
-{{- else -}}
-apiVersion: extensions/v1beta1
-{{- end }}
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
   name: {{ $fullName }}
   labels:
@@ -16,26 +13,39 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if .Values.ingress.tls }}
+  entryPoints:
+  - websecure
+  - web
   tls:
-    {{- range .Values.ingress.tls }}
-    - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ .secretName }}
-    {{- end }}
+    secretName: {{ $fullName }}-tls
+  routes:
+  - kind: Rule
+    match: "Host('code.arroyo.turnbros.app')"
+    middlewares: []
+    services:
+    - kind: Service
+      name: {{ $fullName }}
+      port: {{ $svcPort }}
+      scheme: http
+
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "code-server.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
   {{- end }}
-  rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
-      http:
-        paths:
-          {{- range .paths }}
-          - path: {{ . }}
-            backend:
-              serviceName: {{ $fullName }}
-              servicePort: {{ $svcPort }}
-          {{- end }}
-    {{- end }}
-  {{- end }}
+spec:
+  commonName: code.arroyo.turnbros.app
+  secretName: {{ $fullName }}-traefik-tls
+  dnsNames:
+  - code.arroyo.turnbros.app
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+{{- end }}
