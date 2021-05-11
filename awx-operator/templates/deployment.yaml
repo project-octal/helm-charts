@@ -3,17 +3,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "awx-operator.fullname" . }}
-  labels: 
-    {{ template "awx-operator.labels" . }}
+  labels:  {{ template "awx-operator.labels" . }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
-    matchLabels:
-      {{ template "awx-operator.selectorLabels" . }}
+    matchLabels: {{ template "awx-operator.selectorLabels" . }}
   template:
     metadata:
-      labels:
-        {{ template "awx-operator.labels" . }}
+      labels: {{ template "awx-operator.labels" . }}
     spec:
       serviceAccountName: {{ template "awx-operator.serviceAccountName" . }}
       containers:
