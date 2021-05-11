@@ -4,16 +4,16 @@ kind: Deployment
 metadata:
   name: {{ template "awx-operator.fullname" . }}
   labels:
-{{ template "awx-operator.labels" . | indent 4 }}
+    name: {{ template "awx-operator.fullname" . }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-{{ template "awx-operator.selectorLabels" . | indent 6 }}
+      name: {{ template "awx-operator.fullname" . }}
   template:
     metadata:
       labels:
-{{ template "awx-operator.labels" . | indent 8 }}
+        name: {{ template "awx-operator.fullname" . }}
     spec:
       serviceAccountName: {{ template "awx-operator.serviceAccountName" . }}
       containers:
