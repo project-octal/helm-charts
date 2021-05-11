@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "awx-operator.fullname" . }}
+  labels: 
+    {{ template "awx-operator.labels" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{ template "awx-operator.selectorLabels" . }}
+  template:
+    metadata:
+      labels:
+        {{ template "awx-operator.labels" . }}
+    spec:
+      serviceAccountName: {{ template "awx-operator.serviceAccountName" . }}
+      containers:
+        - name: {{ template "awx-operator.fullname" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /tmp/ansible-operator/runner
+              name: runner
+          env:
+            # Watch all namespaces (cluster-scoped).
+            - name: WATCH_NAMESPACE
+              value: ""
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: awx-operator
+            - name: ANSIBLE_GATHERING
+              value: explicit
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 6789
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      volumes:
+        - name: runner
+          emptyDir: {}
