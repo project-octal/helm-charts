@@ -1,0 +1,11 @@
+---
+
+external_secrets: []
+# - name: external-secret-foo
+#   backend_type: kubernetes-external-secrets
+#   vault_mount_point: kubernetes
+#   vault_role: 
+#   data:
+#   - key: secrets-mount/data/path/to/secret
+#     property: the-secret-key-in-vault
+#     name: what-the-secret-is-mounted-as.json
