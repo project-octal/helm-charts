@@ -1,0 +1,18 @@
+apiVersion: v1
+name: octal-elasticsearch
+description: Project Octal compatible helm chart for Elasticsearch
+version: 7.16.2
+appVersion: 7.16.2
+home: https://github.com/elastic/helm-charts
+maintainers:
+- email: helm-charts@elastic.co
+  name: Elastic
+- email: dylanturn@gmail.com
+  name: Dylan Turnbull
+sources:
+  - https://github.com/elastic/elasticsearch
+icon: https://helm.elastic.co/icons/elasticsearch.png
+dependencies:
+  - name: elasticsearch
+    version: 7.16.2
+    repository: https://helm.elastic.co
